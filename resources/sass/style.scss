@@ -1,0 +1,222 @@
+@import "fonts";
+@import "helpers";
+@import "variables";
+
+body {
+    /**
+ * Для эксплорера
+ */
+    -ms-user-select: none;
+
+    /**
+     * Для мозилы
+     */
+    -moz-user-select: none;
+
+    /**
+     * Для конкверора
+     */
+    -khtml-user-select: none;
+
+    /**
+     * Для Сафари и Хрома
+     */
+    -webkit-user-select: none;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.main-content {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: Roboto,Helvetica,Arial,sans-serif;
+
+    &__body {
+        flex-grow: 1;
+        padding-top: 116px;
+    }
+}
+.header-top-right-buttons {
+    margin-left: auto;
+    a {
+        color: $white;
+    }
+}
+.header-top {
+    display: flex;
+    width: 100%;
+}
+.admin {
+    cursor: pointer;
+}
+.header-block {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+    background: #fff;
+    &__top {
+        height: 36px;
+        display: flex;
+        align-items: center;
+        background: $black;
+        color: $white;
+        padding: 0 20px;
+    }
+    &__bottom {
+        height: 80px;
+        border-bottom: 1px solid #cecece;
+        display: flex;
+        align-items: center;
+    }
+}
+.footer {
+    height: $footer-height+px;
+    background: $black;
+    color: $white;
+}
+.application {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.logo {
+    width: 129px;
+    padding: 5px;
+    margin-right: 32px;
+}
+.bottom-header {
+    display: flex;
+    align-items: center;
+}
+.search-form {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding-right: 6px;
+}
+.global-search {
+    margin-left: 16px;
+    margin-right: 31px;
+    border: 1px solid $grey;
+    border-radius: 6px;
+    height: 48px;
+    width: 700px;
+    display: flex;
+    &__search {
+        flex-grow: 1;
+        input {
+            width: 100%;
+            border: none;
+            padding: 0 10px;
+            font-size: 19px;
+            &:focus, &:active {
+                border: none;
+                outline: 0;
+                outline-offset: 0;
+            }
+        }
+    }
+    &__button {
+        width: 36px;
+        height: 36px;
+        overflow: hidden;
+        button {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: $main;
+            color: $white;
+            border-radius: 2px;
+        }
+    }
+}
+.right-buttons {
+    display: flex;
+    margin-left: auto;
+    &__item {
+        margin-left: 24px;
+        cursor: pointer;
+        &:hover {
+            opacity: .7;
+        }
+        &>div {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+        }
+        &>a {
+            text-decoration: none;
+            color: $black;
+            &>div {
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+                align-items: center;
+            }
+
+
+        }
+    }
+}
+.login-button {
+    border: none;
+    background: transparent;
+}
+.page {
+  .page-header {
+    @extend .d-flex, .align-items-center, .justify-content-between, .mb-3;
+    font-family: Roboto-bold;
+    font-size: 25px;
+  }
+}
+.page-label {
+  font-size: 22px;
+}
+
+////// dialog block
+
+.dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+.dialog-body {
+  background: #fff;
+  width: 500px;
+  min-height: 160px;
+  border-radius: 4px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  &__header{
+    font-size: 20px;
+    margin-bottom: 22px;
+  }
+  &__body {
+    margin-bottom: auto;
+  }
+  &__action {
+    margin-left: auto;
+  }
+}
+
+
+
+
+
+

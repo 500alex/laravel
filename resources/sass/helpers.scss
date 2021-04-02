@@ -1,0 +1,90 @@
+@import "variables";
+////////////////////////////////// flex section
+.d-flex {
+    display: flex;
+}
+.justify-content-center {
+    justify-content: center;
+}
+.align-items-center {
+    align-items: center;
+}
+.justify-content-between {
+    justify-content: space-between;
+}
+
+/////////////////////////////////// grid section
+.container {
+    padding: 0 12px;
+    margin: 0 auto;
+    max-width: 1280px;
+}
+
+/////////////////////////////////// buttons section
+.btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+  &:focus {
+    outline: none;
+  }
+}
+.btn-primary {
+    color: #fff;
+    background-color: $primary;
+    border-color: $primary;
+}
+
+
+////////////////////////////////////////// inputs section
+.form-control {
+    display: block;
+    width: 100%;
+    height: calc(2.25rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+
+//////////////////////////////////////////// margin section
+
+.mb-3 {
+    margin-bottom: 12px;
+}
+.mr-3 {
+  margin-right: 12px;
+}
+
+////////////////////////////// padding section
+
+.pl-3 {
+  padding-left: 12px;
+}
+
+//////////////////// cursor section
+.pointer {
+  cursor: pointer;
+}
