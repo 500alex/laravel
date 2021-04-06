@@ -83,12 +83,7 @@
       <div class="page-body">
         <div class="inputs-group width-50">
           <h5>Название продукта</h5>
-          <!--<v-text-field-->
-            <!--v-model="newProductName"-->
-            <!--label="Название проудкта"-->
-            <!--outlined-->
-          <!--&gt;</v-text-field>-->
-          <div class="input-group mb-3">
+          <div class="input-group mb-7">
             <input  type="text"
                     class="form-control"
                     placeholder="Название продукта"
@@ -102,7 +97,10 @@
             <input type="file" multiple class="form-control-file" name="image" id="image" @change="onFileChange" accept="image/*">
           </div>
           <div class="images-list">
-            <img :src="imageSrc" v-if="imageSrc" />
+            <div class="images-list__item" v-for="(image,i) in imageSrc" :key="i">
+              <img :src="image" v-if="imageSrc.length" />
+            </div>
+
           </div>
         </div>
         <div class="buttons-group text-right width-50">
@@ -140,7 +138,7 @@
           name: '',
           categoryId: null
         },
-        imageSrc: '',
+        imageSrc: [],
         files: [],
         search: '',
         headers: [
@@ -182,15 +180,28 @@
       ]),
       onFileChange(event){
         this.files = event.target.files
-        const reader = new FileReader();
-        reader.onload = e => {
-          this.imageSrc = reader.result
+
+        // const reader = new FileReader();
+        // reader.onload = e => {
+        //   console.log('load images')
+        //   // this.imageSrc = reader.result
+        // }
+
+        for (let i = 0; i < this.files.length; i++) {
+          var reader = new FileReader();
+          reader.onload = (e) =>{
+            this.imageSrc.push(e.target.result)
+          }
+          reader.readAsDataURL(this.files[i])
+
         }
 
-        // for (let i = 0; i < this.files.length; i++) {
-        //   let file = this.files[i];
-        //   this.sendFile(file,i)
+        // const reader = new FileReader();
+        // reader.onload = e => {
+        //    this.imageSrc.push(reader.result)
         // }
+        // let file = this.files[i];
+        // this.sendFile(file,i)
 
          // this.sendFile()
 
@@ -280,6 +291,19 @@
 </script>
 
 <style lang="scss" scoped>
+  .images-list {
+    display: flex;
+    margin: 40px 0;
+    &__item {
+      width: 250px;
+      margin: 0 6px;
+      float: left;
+      img {
+        width: 100%;
+        border: 1px solid #cecece;
+      }
+    }
+  }
   .search-product {
     margin-bottom: 22px;
   }

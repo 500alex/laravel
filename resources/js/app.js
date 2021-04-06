@@ -15,6 +15,7 @@ import "./scripts"
 
 /////////////////////////////////////////
 import AppMenu from "./app/AppMenu.vue"
+import ProductList from "./app/ProductList.vue"
 import AdminLayout from "./admin/AdminLayout.vue"
 
 ////////////////////////////////////////
@@ -29,6 +30,7 @@ window.app = new Vue({
   store,
   components: {
     "app-menu": AppMenu,
-    "admin-layout": AdminLayout
+    "admin-layout": AdminLayout,
+    "product-list": ProductList
   }
 })

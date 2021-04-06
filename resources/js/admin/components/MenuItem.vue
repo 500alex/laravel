@@ -18,7 +18,7 @@
           </span>
           <options :item="category"/>
         </div>
-        <div class="item__name" @click="selectCategory(category)">{{category.name }}&nbsp;&nbsp;<span v-if="category.productCount > 0">({{category.productCount}})</span>
+        <div class="item__name" @click="showList(category)">{{category.name }}&nbsp;&nbsp;<span v-if="category.productCount > 0">({{category.productCount}})</span>
         </div>
       </div>
       <div class="item-list">
@@ -62,6 +62,7 @@
         } else {
           category.active = false;
         }
+        this.selectCategory(category);
       },
       dragStart(event) {
         this.$root.$emit('dragStart', event.target.dataset.categoryId)

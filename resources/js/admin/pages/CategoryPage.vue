@@ -185,7 +185,7 @@
         for (let i = 0; i < word.length; ++i){
           answer += a[word[i]] === undefined ? word[i] : a[word[i]];
         }
-        return answer.toLowerCase();
+        return answer.toLowerCase().split(' ').join('_');
       },
       getCategories(id = null) {
         axios.get(`${Config.api}/categories?level=-1`)
