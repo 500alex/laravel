@@ -58,3 +58,8 @@ Route::resource('products', \App\Http\Controllers\ProductController::class);
 
 // отображение конкретной категории
 Route::get('/{slug}', '\App\Http\Controllers\ShowCategoryController@showCategory');
+
+
+//загрузка файлов
+
+Route::post('/upload', '\App\Http\Controllers\FilesUploadController@uploadFiles');

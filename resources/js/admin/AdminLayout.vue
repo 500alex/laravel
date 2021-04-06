@@ -21,6 +21,15 @@
     <div class="admin-grid__page">
       <component :is="curentPage"/>
     </div>
+    <div class="admin-grid__options">
+      <v-snackbar
+        v-model="snackbar.show"
+        :right="true"
+        :color="snackbar.color"
+      >
+        {{snackbar.text}}
+      </v-snackbar>
+    </div>
   </div>
 </template>
 
@@ -29,19 +38,29 @@
   import CategoryPage from "./pages/CategoryPage.vue"
   import ProductPage from "./pages/ProductPage.vue"
   import SettingsPage from "./pages/SettingsPage.vue"
-
+  import {mapState, mapMutations} from 'vuex';
   export default {
     data() {
       return {
         curentPage: 'category-page',
-        currentCategory: {}
+        currentCategory: {},
       }
+    },
+    computed: {
+      ...mapState([
+        'snackbar'
+      ])
     },
     components: {
       'top-menu': TopMenu,
       'category-page': CategoryPage,
       'product-page': ProductPage,
       'settings-page': SettingsPage
+    },
+    methods: {
+      ...mapMutations([
+        'setSnackbar'
+      ])
     },
     created() {
       this.$root.$on('goPage', data => {

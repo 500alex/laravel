@@ -18,6 +18,15 @@ class ProductController extends Controller
         $products = DB::table('products')
           ->where('category_id','=', $categoryId)
           ->get();
+
+        foreach ($products as $product){
+
+            $product->images  = DB::table('files')
+              ->where('owner_id','=', $product->id)
+              ->get('link');
+
+        }
+
         return $products;
     }
 
@@ -39,7 +48,14 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+      $data = $request->all();
+
+      $id = DB::table('products')->insertGetId([
+        'name' => $data["name"],
+        'category_id'=>$data['categoryId']
+      ]);
+      return $id;
     }
 
     /**
@@ -84,6 +100,6 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+      DB::table('products')->where('id', '=', $id)->delete();
     }
 }

@@ -4,7 +4,7 @@
          v-for="category in currentCategories" :key="category.id">
       <div class="item" draggable="true" :data-category-id="category.id">
         <div class="item__has-childe">
-          <div v-if="category.count > 0">
+          <div v-if="category.count > 0" @click="showList(category)" class="pointer">
             <i class="fa fa-plus" aria-hidden="true" v-if="!category.active"></i>
             <i class="fa fa-minus" aria-hidden="true" v-if="category.active"></i>
           </div>
@@ -18,7 +18,7 @@
           </span>
           <options :item="category"/>
         </div>
-        <div class="item__name" @click="showList(category)">{{category.name }}&nbsp;&nbsp;<span v-if="category.productCount > 0">({{category.productCount}})</span>
+        <div class="item__name" @click="selectCategory(category)">{{category.name }}&nbsp;&nbsp;<span v-if="category.productCount > 0">({{category.productCount}})</span>
         </div>
       </div>
       <div class="item-list">
@@ -62,13 +62,15 @@
         } else {
           category.active = false;
         }
-        this.$root.$emit('selectCategory', category)
       },
       dragStart(event) {
         this.$root.$emit('dragStart', event.target.dataset.categoryId)
       },
       drop(i) {
         this.$root.$emit('drop', i)
+      },
+      selectCategory(category){
+        this.$root.$emit('selectCategory', category)
       }
     },
   }

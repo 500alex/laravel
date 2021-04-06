@@ -50,6 +50,7 @@
         "terser-webpack-plugin": "^5.1.1",
         "vue": "^2.6.12",
         "vue-router": "^3.5.1",
-        "vuetify": "^2.4.8"
+        "vuetify": "^2.4.8",
+        "vuex": "^3.6.2"
     }
 }

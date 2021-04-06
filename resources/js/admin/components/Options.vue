@@ -23,7 +23,7 @@
             <v-list-item-title @click="showOrderDialog">Порядок дочерних элементов</v-list-item-title>
           </v-list-item>
 
-          <v-list-item link>
+          <v-list-item link v-if="item.productCount == 0">
             <v-list-item-title @click="showAddCategoryDialog">Добавить подкатегорию</v-list-item-title>
           </v-list-item>
 
@@ -207,8 +207,8 @@
 
 </template>
 <script>
-  import Config from '../../config.js'
-
+  import Config from '@/js/config.js'
+  import {mapMutations} from 'vuex'
   export default {
     props: {
       item: {
@@ -232,6 +232,9 @@
       }
     },
     methods: {
+      ...mapMutations([
+        "setSnackbar"
+      ]),
       showEditDialog() {
         this.editDialog = true
       },
@@ -269,6 +272,7 @@
           .then(() => {
             this.deleteDialog = false
             this.$root.$emit('updateCatalog', this.item.parent_id)
+            this.$root.$emit('selectCategory', this.item.parent_id)
           })
           .catch(e => {
             console.log("Error delete categories", e)

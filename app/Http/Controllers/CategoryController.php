@@ -74,7 +74,8 @@ class CategoryController extends Controller
         $data = $request->all();
         DB::table('categories')->insert([
             'name' => $data["name"],
-            'parent_id' => $data["parentId"]
+            'parent_id' => $data["parentId"],
+            'link'=>$data["link"]
         ]);
 //        dump($request->all());
     }
@@ -122,7 +123,10 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-//      DB::table('categories')->where('parent_id', '=', $id)->delete();
+
+      DB::table('products')->where('category_id', '=', $id)->delete();
       DB::table('categories')->where('id', '=', $id)->delete();
+
+
     }
 }

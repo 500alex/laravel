@@ -19,11 +19,14 @@ import AdminLayout from "./admin/AdminLayout.vue"
 
 ////////////////////////////////////////
 
+import store from './store.js'
+
 window.axios = require("axios")
 
 window.app = new Vue({
   el: "#app",
   vuetify,
+  store,
   components: {
     "app-menu": AppMenu,
     "admin-layout": AdminLayout

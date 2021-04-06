@@ -50,8 +50,18 @@
               required
               solo
               v-model="newCategoryName"
+              @input="setCategoryLink"
               clearable
             ></v-text-field>
+
+            <v-text-field
+              label="ссылка категории"
+              required
+              solo
+              v-model="newCategoryLink"
+              clearable
+            ></v-text-field>
+
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -66,7 +76,7 @@
               color="primary darken-1"
               text
               @click="saveNewCategoryName"
-              :disabled="!newCategoryName"
+              :disabled="!newCategoryName || !newCategoryLink"
             >
               Сохранить
             </v-btn>
@@ -128,7 +138,7 @@
   import Config from '../../config.js'
   import MenuItem from '../components/MenuItem.vue'
   import ProductList from '../components/ProductList.vue'
-
+  import {mapMutations} from 'vuex'
   export default {
     components: {
       'menu-item': MenuItem,
@@ -141,6 +151,7 @@
         addCategoryDialog: false,
         orderCategoryDialog: false,
         newCategoryName: '',
+        newCategoryLink: '',
         selectedCategory: {}
 
       }
@@ -150,9 +161,32 @@
         return this.categories.filter(el => {
           return el.parent_id === 0
         })
-      }
+      },
     },
     methods: {
+      ...mapMutations([
+        'setSnackbar'
+      ]),
+      setCategoryLink(){
+        console.log(111)
+        this.newCategoryLink = this.convert(this.newCategoryName);
+      },
+      convert(word){
+        var answer = "";
+        var a = {}
+
+        a["Ё"]="YO";a["Й"]="I";a["Ц"]="TS";a["У"]="U";a["К"]="K";a["Е"]="E";a["Н"]="N";a["Г"]="G";a["Ш"]="SH";a["Щ"]="SCH";a["З"]="Z";a["Х"]="H";a["Ъ"]="'";
+        a["ё"]="yo";a["й"]="i";a["ц"]="ts";a["у"]="u";a["к"]="k";a["е"]="e";a["н"]="n";a["г"]="g";a["ш"]="sh";a["щ"]="sch";a["з"]="z";a["х"]="h";a["ъ"]="'";
+        a["Ф"]="F";a["Ы"]="I";a["В"]="V";a["А"]="a";a["П"]="P";a["Р"]="R";a["О"]="O";a["Л"]="L";a["Д"]="D";a["Ж"]="ZH";a["Э"]="E";
+        a["ф"]="f";a["ы"]="i";a["в"]="v";a["а"]="a";a["п"]="p";a["р"]="r";a["о"]="o";a["л"]="l";a["д"]="d";a["ж"]="zh";a["э"]="e";
+        a["Я"]="Ya";a["Ч"]="CH";a["С"]="S";a["М"]="M";a["И"]="I";a["Т"]="T";a["Ь"]="'";a["Б"]="B";a["Ю"]="YU";
+        a["я"]="ya";a["ч"]="ch";a["с"]="s";a["м"]="m";a["и"]="i";a["т"]="t";a["ь"]="'";a["б"]="b";a["ю"]="yu";
+
+        for (let i = 0; i < word.length; ++i){
+          answer += a[word[i]] === undefined ? word[i] : a[word[i]];
+        }
+        return answer.toLowerCase();
+      },
       getCategories(id = null) {
         axios.get(`${Config.api}/categories?level=-1`)
           .then(({data}) => {
@@ -192,9 +226,11 @@
       saveNewCategoryName() {
         axios.post(`${Config.api}/categories`, {
           name: this.newCategoryName,
+          link: this.newCategoryLink,
           parentId: 0
         })
           .then(() => {
+            this.setSnackbar({text:'Категория успешно создана',color:'success',show: true})
             this.addCategoryDialog = false
             this.newCategoryName = ''
             this.getCategories();
@@ -247,7 +283,14 @@
         this.getCategories(id);
       })
       this.$root.$on('selectCategory', (category)=>{
-        this.selectedCategory = category
+        if(typeof category == 'object'){
+          this.selectedCategory = category
+        }else {
+          this.selectedCategory = this.categories.filter(el => {
+            return el.id === category
+          })[0]
+        }
+
       })
 
     },
