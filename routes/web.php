@@ -40,7 +40,8 @@ use App\Http\Controllers\HomeController;
 ////});
 ///
 Route::get('/','App\Http\Controllers\HomeController@index')->name('home');
-Route::get('/admin','App\Http\Controllers\AdminController@index')->name('admin');
+Route::get('/admin/{any?}','App\Http\Controllers\AdminController@index')->name('admin');
+//Route::get('/admin','App\Http\Controllers\AdminController@index');
 //Route::get('/get-categories', 'App\Http\Controllers\CategoriesController@getCategories');
 //Route::post('/create-category', 'App\Http\Controllers\CategoriesController@createCategory');
 
@@ -55,6 +56,12 @@ Route::resource('categories', \App\Http\Controllers\CategoryController::class);
 
 // Продукты
 Route::resource('products', \App\Http\Controllers\ProductController::class);
+//Наборы
+Route::resource('sets', \App\Http\Controllers\SetController::class);
+
+// Значения в наборах
+Route::post('/set-items', '\App\Http\Controllers\SetItemController@store');
+Route::get('/set-items', '\App\Http\Controllers\SetItemController@index');
 
 // отображение конкретной категории
 Route::get('/{slug}', '\App\Http\Controllers\ShowCategoryController@showCategory');
@@ -63,3 +70,4 @@ Route::get('/{slug}', '\App\Http\Controllers\ShowCategoryController@showCategory
 //загрузка файлов
 
 Route::post('/upload', '\App\Http\Controllers\FilesUploadController@uploadFiles');
+Route::delete('/files/{id}', '\App\Http\Controllers\FilesUploadController@destroy');

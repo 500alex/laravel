@@ -1,9 +1,6 @@
 <template>
   <div class="top-menu-list">
-    <div class="list-item" v-for="(item,k) in topMenu" :key="k" @click="goName(item.data)">
-            <!--<span class="left-menu-icon">-->
-                <!--<i class="fa" :class="item.icon" aria-hidden="true"></i>-->
-            <!--</span>-->
+    <div class="list-item" v-for="(item,k) in topMenu" :key="k" @click="goName(item.link)">
       {{ item.label }}
     </div>
   </div>
@@ -16,21 +13,19 @@
       return {
         topMenu: [
           {
-            label: 'Категории',
-            icon: 'fa-home',
-            data:'category-page'
+            label: 'Продукты',
+            link:'/admin'
           },
           {
             label: 'Настройки',
-            icon: 'fa-bandcamp',
-            data: 'settings-page'
+            link: '/admin/settings'
           }
         ]
       }
     },
     methods: {
-      goName(name){
-        this.$root.$emit('goPage', {name:name,category:{}})
+      goName(link){
+        this.$router.push(link)
       }
     }
   }

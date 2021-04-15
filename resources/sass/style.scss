@@ -22,6 +22,8 @@ body {
      * Для Сафари и Хрома
      */
     -webkit-user-select: none;
+
+    font-size: 14px;
 }
 
 * {
@@ -212,6 +214,37 @@ body {
   }
   &__action {
     margin-left: auto;
+  }
+}
+
+
+///////Страница категорий
+.main-content-inner {
+  padding-top: 116px !important;
+  height: 100%;
+  .body-head {
+    min-height: 100px;
+    border-bottom: 1px solid #cecece;
+    h1 {
+      font-size: 27px;
+      font-family: "Roboto-bold";
+    }
+    .breadcrumbs {
+      height: 29px;
+      margin: 24px 0;
+      display: flex;
+      align-items: center;
+    }
+  }
+  .body-content {
+    display: flex;
+    &__left {
+      width: 297px;
+    }
+    &__right {
+
+      flex-grow: 1;
+    }
   }
 }
 

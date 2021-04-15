@@ -33,9 +33,13 @@
 
           <template v-slot:item.options="{ item }">
             <div class="options-block">
+              <span class="mr-3" @click="editProduct(item)">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+              </span>
               <span @click="showDeleteProductDialog(item)">
                 <i class="fa fa-trash" aria-hidden="true"></i>
               </span>
+
             </div>
           </template>
         </v-data-table>
@@ -76,51 +80,31 @@
       </div>
     </div>
     <div class="product-create-page" v-if="tabs.add">
-      <div class="page-header">
-        <div class="page-header__label">Добавление продукта в категорию {{ category.name }}</div>
-        <div @click="showPage('list')" class="pointer"><i class="fa fa-times" aria-hidden="true"></i></div>
-      </div>
-      <div class="page-body">
-        <div class="inputs-group width-50">
-          <h5>Название продукта</h5>
-          <div class="input-group mb-7">
-            <input  type="text"
-                    class="form-control"
-                    placeholder="Название продукта"
-                    aria-label="Username"
-                    aria-describedby="basic-addon1"
-                    v-model="product.name"
-            >
-          </div>
-          <div class="form-group">
-            <label for="image">Фото продукта</label>
-            <input type="file" multiple class="form-control-file" name="image" id="image" @change="onFileChange" accept="image/*">
-          </div>
-          <div class="images-list">
-            <div class="images-list__item" v-for="(image,i) in imageSrc" :key="i">
-              <img :src="image" v-if="imageSrc.length" />
-            </div>
-
-          </div>
-        </div>
-        <div class="buttons-group text-right width-50">
-          <button class="btn btn-primary" @click="SaveNewProduct" :disabled="!valid()">Сохранить</button>
-        </div>
-      </div>
+      <product-add
+        :category="category"
+        @showPage="showPage"
+        @updateProducts="getProducts"/>
     </div>
     <div class="product-edit-page" v-if="tabs.edit">
-      <div class="page-header">
-        <div class="page-header__label">Редактирование продукта</div>
-        <div @click="showPage('list')" class="pointer"><i class="fa fa-times" aria-hidden="true"></i></div>
-      </div>
+      <product-edit
+        :productId="selectedProduct.id"
+        @showPage="showPage"
+        @updateProducts="getProducts"
+      />
     </div>
   </div>
 </template>
 
 <script>
+  import ProductAdd from './ProductAdd.vue'
+  import ProductEdit from './ProductEdit.vue'
   import Config from '@/js/config.js'
   import {mapMutations} from 'vuex'
   export default {
+    components: {
+      'product-edit': ProductEdit,
+      'product-add': ProductAdd
+    },
     props: {
       category:{
         type: Object,
@@ -134,12 +118,6 @@
         selectedProduct: {},
         deleteProductDialog: false,
         products: [],
-        product: {
-          name: '',
-          categoryId: null
-        },
-        imageSrc: [],
-        files: [],
         search: '',
         headers: [
           {
@@ -178,55 +156,9 @@
       ...mapMutations([
         "setSnackbar"
       ]),
-      onFileChange(event){
-        this.files = event.target.files
-
-        // const reader = new FileReader();
-        // reader.onload = e => {
-        //   console.log('load images')
-        //   // this.imageSrc = reader.result
-        // }
-
-        for (let i = 0; i < this.files.length; i++) {
-          var reader = new FileReader();
-          reader.onload = (e) =>{
-            this.imageSrc.push(e.target.result)
-          }
-          reader.readAsDataURL(this.files[i])
-
-        }
-
-        // const reader = new FileReader();
-        // reader.onload = e => {
-        //    this.imageSrc.push(reader.result)
-        // }
-        // let file = this.files[i];
-        // this.sendFile(file,i)
-
-         // this.sendFile()
-
-        // reader.readAsDataURL(this.file)
-        // this.product.image = this.file
-      },
-      sendFile(file, ownerId){
-        let formData = new FormData();
-
-        formData.set('file',file)
-        formData.set('ownerId', ownerId)
-        axios({
-          method: "post",
-          url: `${Config.api}/upload`,
-          data: formData,
-          headers: { "Content-Type": "multipart/form-data" }
-        })
-          .then((res) => {
-            console.log('uploaded file id', res);
-            this.files = []
-            this.imageSrc = ''
-          })
-          .catch(error => {
-            console.log(error);
-          });
+      editProduct(item){
+        this.selectedProduct = item
+        this.showPage('edit')
       },
       showDeleteProductDialog(item){
         this.deleteProductDialog = true
@@ -251,41 +183,11 @@
           }
           this.tabs[str] = true;
       },
-      getProducts (id){
-        axios.get(`${Config.api}/products?categoryId=${id}`)
-          .then(({data}) => {
-            this.products = data
-          })
-          .catch(e => {
-            console.log("Error get products", e)
-          })
+      async getProducts (id){
+        let res = await axios.get(`${Config.api}/products?categoryId=${id}`)
+        this.products = res.data
       },
-      SaveNewProduct(){
-        this.product.categoryId = this.category.id
-        axios.post(`${Config.api}/products`, this.product)
-          .then(({data}) => {
-            if(this.files.length){
-              for (let i = 0; i < this.files.length; i++) {
-                let file = this.files[i];
-                this.sendFile(file,data)
-              }
-            }
-            this.setSnackbar({text: 'Продукт успешно сохранен', color:'success', show: true})
-            this.getProducts(this.category.id)
-            this.$root.$emit('updateCatalog', this.category.id)
-            this.product.name = ''
-            this.showPage('list')
-          })
-          .catch(e => {
-            console.log("Error get products", e)
-          })
 
-
-      },
-      valid(){
-        if(!this.product.name) return false
-        return true
-      }
     }
   }
 </script>

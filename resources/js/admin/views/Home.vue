@@ -187,22 +187,21 @@
         }
         return answer.toLowerCase().split(' ').join('_');
       },
+      getActive(data,id){
+        data.forEach(el => {
+          if(el.id === id){
+            this.$set(el, 'active', true)
+            if(el.parent_id != 0) {
+              this.getActive(data,el.parent_id)
+            }
+          }
+        })
+      },
       getCategories(id = null) {
         axios.get(`${Config.api}/categories?level=-1`)
           .then(({data}) => {
             if(id){
-              data.forEach(el => {
-                if(el.id === id){
-                  this.$set(el, 'active', true)
-                  if(el.parent_id != 0) {
-                    data.forEach(par => {
-                      if(par.id === el.parent_id){
-                        this.$set(par, 'active', true)
-                      }
-                    })
-                  }
-                }
-              })
+              this.getActive(data,id)
             }
             this.categories = data
 

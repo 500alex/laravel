@@ -4,31 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 
-class ProductController extends Controller
+class SetController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $categoryId =  $request->query('categoryId');
-        $products = DB::table('products')
-          ->where('category_id','=', $categoryId)
-          ->get();
-
-        foreach ($products as $product){
-
-            $product->images  = DB::table('files')
-              ->where('owner_id','=', $product->id)
-              ->get();
-
-        }
-
-        return $products;
+        $sets = DB::table('sets')->get();
+        return $sets;
     }
 
     /**
@@ -49,14 +36,8 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-
-      $data = $request->all();
-
-      $id = DB::table('products')->insertGetId([
-        'name' => $data["name"],
-        'category_id'=>$data['categoryId']
-      ]);
-      return $id;
+        $setName = $request->get('name');
+        DB::table('sets')->insert(['name'=> $setName]);
     }
 
     /**
@@ -67,12 +48,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-     $product =  DB::table('products')->where('id', '=', $id)->get();
-      $product[0]->images  = DB::table('files')
-        ->where('owner_id','=', $id)
-        ->get();
-
-     return $product;
+        //
     }
 
     /**
@@ -83,8 +59,7 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-
-
+        //
     }
 
     /**
@@ -96,12 +71,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-      $data = $request->all();
-
-      $id = DB::table('products')
-        ->where('id',$id)
-        ->update(['name'=>$data['name']]);
-
+        //
     }
 
     /**
@@ -112,11 +82,6 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-      $files = DB::table('files')->where('owner_id', '=', $id)->get();
-      foreach ($files as $file){
-        Storage::delete($file->link);
-      }
-      DB::table('files')->where('owner_id', '=',$id)->delete();
-      DB::table('products')->where('id', '=', $id)->delete();
+        //
     }
 }

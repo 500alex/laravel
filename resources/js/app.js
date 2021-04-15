@@ -21,6 +21,7 @@ import AdminLayout from "./admin/AdminLayout.vue"
 ////////////////////////////////////////
 
 import store from './store.js'
+import router from './router.js'
 
 window.axios = require("axios")
 
@@ -28,6 +29,7 @@ window.app = new Vue({
   el: "#app",
   vuetify,
   store,
+  router,
   components: {
     "app-menu": AppMenu,
     "admin-layout": AdminLayout,

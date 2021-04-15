@@ -1,8 +1,6 @@
 <template>
   <div class="product-list">
-      <div v-for="(product,i) in products" :key="i">
-        <card :product="product"/>
-      </div>
+  <card :product="product" v-for="(product,i) in products" :key="i"/>
   </div>
 </template>
 
@@ -40,3 +38,10 @@
     }
   }
 </script>
+<style lang="scss" scoped>
+  .product-list {
+   display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 22px;
+  }
+</style>

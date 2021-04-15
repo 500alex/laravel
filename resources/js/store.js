@@ -9,14 +9,14 @@ const store = new Vuex.Store({
       text:'',
       color: null,
       show: false
-    }
+    },
   },
   mutations: {
     setSnackbar (state, payload) {
       state.snackbar.text = payload.text
       state.snackbar.color = payload.color
       state.snackbar.show = payload.show
-    }
+    },
   }
 })
 

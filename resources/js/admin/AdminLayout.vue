@@ -4,8 +4,8 @@
       <div class="header">
         <div class="header__logo">
           <div class="admin-logo">
-            <img src="public/img/logo-icon.png"/>
-            <img src="public/img/logo-text.png"/>
+            <img src="/public/img/logo-icon.png"/>
+            <img src="/public/img/logo-text.png"/>
           </div>
         </div>
         <div class="header__menu"><top-menu/></div>
@@ -19,7 +19,7 @@
       </div>
     </div>
     <div class="admin-grid__page">
-      <component :is="curentPage"/>
+      <router-view></router-view>
     </div>
     <div class="admin-grid__options">
       <v-snackbar
@@ -35,15 +35,11 @@
 
 <script>
   import TopMenu from "./components/TopMenu.vue";
-  import CategoryPage from "./pages/CategoryPage.vue"
-  import ProductPage from "./pages/ProductPage.vue"
-  import SettingsPage from "./pages/SettingsPage.vue"
   import {mapState, mapMutations} from 'vuex';
   export default {
     data() {
       return {
-        curentPage: 'category-page',
-        currentCategory: {},
+
       }
     },
     computed: {
@@ -53,24 +49,7 @@
     },
     components: {
       'top-menu': TopMenu,
-      'category-page': CategoryPage,
-      'product-page': ProductPage,
-      'settings-page': SettingsPage
     },
-    methods: {
-      ...mapMutations([
-        'setSnackbar'
-      ])
-    },
-    created() {
-      this.$root.$on('goPage', data => {
-        this.curentPage = data.name
-        if (Object.prototype.hasOwnProperty.call(data, 'category')) {
-          this.currentCategory = data.category
-        }
-
-      })
-    }
   }
 </script>
 

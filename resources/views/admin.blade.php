@@ -7,7 +7,6 @@
 @section('content')
 
 <div is="admin-layout"></div>
-
 @endsection
 
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class FilesUploadController extends Controller
 {
@@ -25,5 +26,10 @@ class FilesUploadController extends Controller
       }else {
         return null;
       }
+    }
+    public function destroy($id) {
+      $file = DB::table('files')->where('id', '=', $id)->first();
+      Storage::delete($file->link);
+      DB::table('files')->where('id', '=', $id)->delete();
     }
 }
